@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wordle</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Wordle</h1><br>  
+  <section id="login">
+    <div>
+        <h3>Bienvenido a Wordle</h3>
+        <div class="form-group">
+            <label for="dni">DNI </label>
+            <input id="dniUser" class="form-control" type="text">
+
+            <label for="password">Contraseña </label>
+            <input id="passwordUser" class="form-control" type="text">
+
+            <button onclick="linkLogin()" >Ingresar</button>
+        </div>
+        <div class="form-group">
+            <label for="name">Nombre </label>
+            <input id="nameUser" class="form-control" type="text">
+
+            <label for="surname">Apellido </label>
+            <input id="surnameUser" class="form-control" type="text">
+
+            <label for="ingresosAnuales">Ingresos anuales </label>
+            <input id="ingresosAnualesUser" class="form-control" type="text">
+
+            <button onclick="linkRegister()">Registrarse</button>
+        </div>
+    </div>
+  </section>
+  
+  <section id="game">
+    <div id="scoreContainer">
+      Puntuación : <span id="score">0</span>
+    </div>
+    <table id="wordleTable"></table>
+    <div id="controlButtons">
+      <button onclick="checkResponse()"  id="check">Verificar</button>
+      <button onclick="backspace(false)" id="delete">Delete</button>
+    </div>
+    <div id="keyboardLayout">
+      <div id="keyboardLayoutRow1" class="keyboardKeys"></div>
+      <div id="keyboardLayoutRow2" class="keyboardKeys"></div>
+      <div id="keyboardLayoutRow3" class="keyboardKeys"></div>
+    </div>
+  </section>
+  <section id="estadisticas">
+  
+  </section>
+  <script src="./dom.js"></script>
+  <script src="./main.js"></script>
+</body>
+
+</html>

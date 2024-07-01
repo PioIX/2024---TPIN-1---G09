@@ -7,6 +7,12 @@ body {
   color: white;
 }
 
+section{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 #scoreContainer{
   font-size: 24px;
   margin-bottom: 20px;
@@ -97,6 +103,7 @@ button#delete:hover {
   color: white;
   border: 1px solid grey
 }
+
 @media only screen and (min-width : 1024px) {
   #controlButtons>button {
       width: 120px;
