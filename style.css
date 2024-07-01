@@ -1,0 +1,305 @@
+body { 
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #191622;
+  color: white;
+}
+
+#scoreContainer{
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+table {
+  table-layout: fixed;
+}
+
+td {
+  border: 2px solid white;
+  height: 55px;
+  width: 55px;
+}
+
+.letterInput {
+  height: 50px;
+  width: 50px;
+  font-size: 42px;
+  text-align: center;
+  text-transform: uppercase;
+  pointer-events: none;
+  border: none;
+  outline: none;
+  caret-color: transparent;
+  background-color: transparent;
+  font-family: 'Open Sans', sans-serif;
+  color: white;
+}
+
+#keyboardLayout {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.keyboardKeys {
+  display: flex;
+  height: 14vw;
+}
+
+.keyboardKeys>p {
+  height: 10vw;
+  width: 8.5vw;
+  border: 1px solid #201b2d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  margin-right: 3px;
+  font-size: 6vw;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+button#check:hover {
+  background: #7C7C8A;
+  color: #191622;
+  transition: 500ms;
+}
+button#delete:hover {
+  background: #7C7C8A;
+  color: #191622;
+  transition: 500ms;
+}
+
+#controlButtons {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  justify-content: space-evenly;
+  padding: 20px
+}
+
+#controlButtons>button {
+  height: 30px;
+  width: 30vw;
+
+  border-radius: 5px;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  background-color: transparent;
+  font-size: 16px;
+  color: white;
+  border: 1px solid grey
+}
+@media only screen and (min-width : 1024px) {
+  #controlButtons>button {
+      width: 120px;
+      height: 40px;
+  }
+
+  .keyboardKeys>p {
+      height: 40px;
+      width: 40px;
+      font-size: 24px;
+  }
+
+  .keyboardKeys {
+      height: 60px;
+  }
+
+p#key-q:hover {
+    background: #fff;
+    color: #191622;
+    transition: 0.2s;
+}
+
+p#key-w:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-e:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-r:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+p#key-t:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+p#key-y:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+p#key-u:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+p#key-i:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+p#key-o:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+p#key-p:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-a:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-s:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-d:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-f:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+p#key-g:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-h:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-j:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-k:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-l:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-ç:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-z:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-x:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-c:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-v:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-b:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-n:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+p#key-m:hover {
+  background: #fff;
+  color: #191622;
+  transition: 0.2s;
+}
+
+  #controlButtons {
+      display: flex;
+      align-items: center;
+      width: 30%;
+      justify-content: space-evenly;
+      padding: 20px
+  }
+}
+
+/* Telas grandes */
+@media only screen and (min-width : 1824px) {
+  #controlButtons>button {
+      width: 150px;
+      height: 50px;
+  }
+
+  .keyboardKeys>p {
+      height: 50px;
+      width: 50px;
+      font-size: 32px;
+  }
+
+  .keyboardKeys {
+      height: 60px;
+  }
+
+  #controlButtons {
+      display: flex;
+      align-items: center;
+      width: 20%;
+      justify-content: space-evenly;
+      padding: 20px
+  }
+  
+}
