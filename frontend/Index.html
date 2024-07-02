@@ -9,28 +9,28 @@
 <body>
   <h1>Wordle</h1><br>  
   <section id="login">
-    <div>
+    <div class="form-group" id="loginRegistro">
         <h3>Bienvenido a Wordle</h3>
-        <div class="form-group">
-            <label for="dni">DNI </label>
-            <input id="dniUser" class="form-control" type="text">
+        <div class="form-group" id="loginRegistro">
+            <label for="user">Usuario </label>
+            <input id="userUser" class="form-control" type="text"><br>
 
             <label for="password">Contraseña </label>
-            <input id="passwordUser" class="form-control" type="text">
+            <input id="passwordUser" class="form-control" type="password"><br>
 
-            <button onclick="linkLogin()" >Ingresar</button>
-        </div>
-        <div class="form-group">
+            <label for="mail">Mail </label>
+            <input id="mailUser" class="form-control" type="text"><br>
+
             <label for="name">Nombre </label>
-            <input id="nameUser" class="form-control" type="text">
+            <input id="nameUser" class="form-control" type="text"><br>
 
             <label for="surname">Apellido </label>
-            <input id="surnameUser" class="form-control" type="text">
+            <input id="surnameUser" class="form-control" type="text"><br>
 
-            <label for="ingresosAnuales">Ingresos anuales </label>
-            <input id="ingresosAnualesUser" class="form-control" type="text">
-
-            <button onclick="linkRegister()">Registrarse</button>
+            <div id="controlButtons">
+              <button onclick="linkRegister()" id="Registro">Registrarse</button> 
+              <button onclick="linkLogin()" id="Login">Ingresar</button>
+            </div>
         </div>
     </div>
   </section>
