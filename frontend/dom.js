@@ -143,3 +143,4 @@ function getSurnameUser(){
 function getIngresosAnualesUser(){
     return document.getElementById("ingresosAnualesUser").value
 }
+

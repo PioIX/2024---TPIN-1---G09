@@ -94,8 +94,8 @@ button#delete:hover {
 #controlButtons {
   display: flex;
   align-items: center;
-  width: 80%;
-  justify-content: space-evenly;
+  width: 100%;
+  justify-content: space-between;
 }
 
 #controlButtons>button {
@@ -111,7 +111,6 @@ button#delete:hover {
   border: 1px solid grey
 }
 
-@media only screen and (min-width : 1024px) {
   #controlButtons>button {
       width: 120px;
       height: 40px;
@@ -285,35 +284,8 @@ p#key-m:hover {
   #controlButtons {
       display: flex;
       align-items: center;
-      width: 30%;
+      width: 100%;
       justify-content: space-evenly;
       padding: 20px
   }
-}
 
-/* Telas grandes */
-@media only screen and (min-width : 1824px) {
-  #controlButtons>button {
-      width: 150px;
-      height: 50px;
-  }
-
-  .keyboardKeys>p {
-      height: 50px;
-      width: 50px;
-      font-size: 32px;
-  }
-
-  .keyboardKeys {
-      height: 60px;
-  }
-
-  #controlButtons {
-      display: flex;
-      align-items: center;
-      width: 20%;
-      justify-content: space-evenly;
-      padding: 20px
-  }
-  
-}

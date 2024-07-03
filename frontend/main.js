@@ -1,19 +1,20 @@
-var bancoDepalabras = ['arroz', 'conan', 'messi', 'peron', 'milei', 'bruja', 'tarot', 'perro', 'cojer', 'negro', 'dolar']//luego integrar con backend
-var gridX = 5 
-var gridY = 6
-var wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
-var keyboardLayoutRow1 = "qwertyuiop" 
-var keyboardLayoutRow2 = "asdfghjkl" 
-var keyboardLayoutRow3 = "zxcvbnm"
+let bancoDepalabras = getPalabras()
+let gridX = 5 
+let gridY = 6
+let wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
+let wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)].Word
+let keyboardLayoutRow1 = "qwertyuiop" 
+let keyboardLayoutRow2 = "asdfghjkl" 
+let keyboardLayoutRow3 = "zxcvbnm"
 
 //--------------------------------------------------Registro y Login------------------------------------------------------
 
 
 //ejercicio21 Linkear métodos Ingreso FUNCIONA
 function linkIngreso(){
-    var monto=getMontoRetiroIngreso()
-    var moneda=getMonedaRetiroIngreso()
-    var mensaje= ""
+    let monto=getMontoRetiroIngreso()
+    let moneda=getMonedaRetiroIngreso()
+    let mensaje= ""
     if (clients[posCliente].ingresarDinero(monto,moneda)>=0){
         mensaje="Ingreso realizado"
     }else{
@@ -100,7 +101,7 @@ function logout(){
     window.alert("Ha cerrado su cuenta con éxito")
 }
 
-// Funciones de juego
+//------------------------------------------------------- Funciones de juego ----------------------------------------------------------------------
 function checkResponse() { 
     let word = ''
     for (let i = 0; i < focusCol; i++) {
@@ -130,7 +131,7 @@ function checkResponse() {
 }
 
 function counter(word) {
-    var palabra = {};
+    let palabra = {};
     for (let i = 0; i < word.length; i++) {
         let letter = word[i];
         if (letter in palabra) {
@@ -185,7 +186,25 @@ document.body.addEventListener('click',(e) => {
     e.stopPropagation()
 },)
 
-// Funciones varias
+//-------------------------------------------Funciones para el back--------------------------------------------------------------------------
+
+async function getPalabras(){
+    //función
+    try{
+        const response = await fetch("http://localhost:3000/getWord",{});
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }else{
+        const words = await response.json();
+        console.log(words);
+        return words;
+        }
+    }catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+// Funciones letias
 function getRandomInt(min, max) { 
     min = Math.ceil(min);
     max = Math.floor(max);

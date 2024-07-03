@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://bootswatch.com/5/morph/bootstrap.min.css">
+    <link rel="stylesheet" href="styleAdmin.css">
+    <title>Explanation fetch</title>
+</head>
+<body>
+    <h1 id="ejemplo"> WORD </h1>
+    <button type="button" class="btn btn-primary" id="callWord" onclick=" getWord()">Fetch Base Data</button><button onclick="escondoTablaWord()" type="button" class="btn btn-primary">Hide table</button>
+    <table id="tablaPunto1" class="tablaPunto1">
+    </table>
+    
+    <form id="formulario">
+        <h3>POST</h3>
+        <input type="number" id="WordIDPost" class="Input"placeholder="WordID">
+        <input type="text" id="WordPost" class="Input" placeholder="Word">
+        <input type="text" id="InfoPost" class="Input" placeholder="Info">
+        <button type="button" class="btn btn-primary" onclick="wordPost()">Enviar</button>
+    </form>
+    <br>
+    <form id="formulario1">
+        <h3>PUT</h3>
+        <input type="number" id="WordIDPut" class="Input" placeholder="WordID">
+        <input type="text" id="WordPut" class="Input" placeholder="Word">
+        <input type="text" id="InfoPut" class="Input" placeholder="Info">
+        <button type="button" class="btn btn-primary" onclick="wordPut('${result[i].WordID}')">Update</button>
+    </form>
+
+<br>
+    <h1>USER</h1>
+
+    <button type="button" class="btn btn-primary" id="callWord" onclick=" getUser()">Fetch Base Data</button><button onclick="escondoTablaUser()" type="button" class="btn btn-primary">Hide table</button>
+    <table id="tablaPunto2" class="tablaPunto2">
+    </table>
+    
+    <form id="formulario2">
+        <h3>POST</h3>
+        <input type="text" id="UserIDPost" class="Input" placeholder="UserID">
+        <input type="text" id="UsernamePost" class="Input" placeholder="Username">
+        <input type="text" id="EmailaddressPost" class="Input" placeholder="Emailaddress">
+        <input type="text" id="PasswordPost" class="Input" placeholder="Password">
+        <button type="button" class="btn btn-primary" onclick="userPost()">Enviar</button>
+    </form>
+    <br>
+    <form id="formulario3">
+        <h3>PUT</h3>
+        <input type="text" id="UserIDPut" class="Input"placeholder="UserID">
+        <input type="text" id="UsernamePut" class="Input" placeholder="Username">
+        <input type="text" id="EmailaddressPut" class="Input" placeholder="Emailaddress">
+        <input type="text" id="PasswordPut" class="Input" placeholder="Password">
+        <button type="button" class="btn btn-primary" onclick="userPut('${result[i].UserID}')">Update</button>
+    </form>
+<br>
+    <h1>GAMES</h1>
+    <button type="button" class="btn btn-primary" id="callWord" onclick=" getGame()">Fetch Base Data</button><button onclick="escondoTablaGame()" type="button" class="btn btn-primary">Hide table</button>
+    <table id="tablaPunto3" class="tablaPunto3">
+    </table>
+    
+    <form id="formulario4">
+        <h3>POST</h3>
+        <input type="number" id="GameIDPost" class="Input"placeholder="GameID">
+        <input type="text" id="UserIDPostG" class="Input"placeholder="UserID">
+        <input type="number" id="TimePost" class="Input"placeholder="Time">
+        <input type="number" id="BestStreakPost" class="Input"placeholder="Best Streak">
+        <input type="number" id="AttemptsPost" class="Input"placeholder="Attempts ">
+        <input type="number" id="LettersUsedPost" class="Input"placeholder="LettersUsed">
+        <button type="button" class="btn btn-primary" onclick="gamePost()">Enviar</button>
+    </form>
+    <br>
+    <form id="formulario5">
+        <h3>PUT</h3>
+        <input type="number" id="GameIDPut" class="Input"placeholder="GameID">
+        <input type="text" id="UserIDPutG" class="Input"placeholder="UserID">
+        <input type="number" id="TimePut" class="Input"placeholder="Time">
+        <input type="number" id="BestStreakPut" class="Input"placeholder="Best Streak">
+        <input type="number" id="AttemptsPut" class="Input"placeholder="Attempts ">
+        <input type="number" id="LettersUsedPut" class="Input"placeholder="LettersUsed">
+        <button type="button" class="btn btn-primary" onclick="gamePut('${result[i].GameID}')">Update</button>
+    </form>
+</body>
+<script src="domAdmin.js">
+</script>
+</html>
+
+
+
+<!--
+ 3 pelo
+4 agua
+
+
+
+
+-->
