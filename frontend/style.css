@@ -65,6 +65,7 @@ td {
 .keyboardKeys>p {
   height: 10vw;
   width: 8.5vw;
+  background-color: #7C7C8A;
   border: 1px solid #201b2d;
   display: flex;
   justify-content: center;
@@ -102,7 +103,7 @@ button#delete:hover {
   height: 30px;
   width: 30vw;
   border-radius: 5px;
-  margin: 40px;
+  margin-inline: 40px;
   border: none;
   font-family: 'Montserrat', sans-serif;
   background-color: transparent;

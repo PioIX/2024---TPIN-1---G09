@@ -1,15 +1,21 @@
-let bancoDepalabras = getPalabras()
+let bancoDepalabras = []
+console.log(bancoDepalabras)
 let gridX = 5 
 let gridY = 6
-let wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
-let wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)].Word
+let wordleObj = ""
+let wordle = ""
 let keyboardLayoutRow1 = "qwertyuiop" 
 let keyboardLayoutRow2 = "asdfghjkl" 
 let keyboardLayoutRow3 = "zxcvbnm"
-
+changeScreen()
+arrancarJuego()
 //--------------------------------------------------Registro y Login------------------------------------------------------
 
-
+async function arrancarJuego() {
+    bancoDepalabras = await getPalabras()
+    wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
+    wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)].Word
+}
 //ejercicio21 Linkear métodos Ingreso FUNCIONA
 function linkIngreso(){
     let monto=getMontoRetiroIngreso()
@@ -172,7 +178,7 @@ function limpiar(id){
 function resetBoard() {
     focusRow = 0
     focusCol = 0
-    wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
+    arrancarJuego()
     limpiar('wordleTable')
     limpiar('keyboardLayoutRow1')
     limpiar('keyboardLayoutRow2')
