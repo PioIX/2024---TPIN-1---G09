@@ -7,15 +7,11 @@ let wordle = ""
 let keyboardLayoutRow1 = "qwertyuiop" 
 let keyboardLayoutRow2 = "asdfghjkl" 
 let keyboardLayoutRow3 = "zxcvbnm"
-changeScreen()
+const userId = 0
+const userPos = 0
 arrancarJuego()
 //--------------------------------------------------Registro y Login------------------------------------------------------
 
-async function arrancarJuego() {
-    bancoDepalabras = await getPalabras()
-    wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
-    wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)].Word
-}
 //ejercicio21 Linkear métodos Ingreso FUNCIONA
 function linkIngreso(){
     let monto=getMontoRetiroIngreso()
@@ -108,6 +104,13 @@ function logout(){
 }
 
 //------------------------------------------------------- Funciones de juego ----------------------------------------------------------------------
+
+async function arrancarJuego() {
+    bancoDepalabras = await getPalabras()
+    wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
+    wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)].Word
+}
+
 function checkResponse() { 
     let word = ''
     for (let i = 0; i < focusCol; i++) {
@@ -126,6 +129,7 @@ function checkResponse() {
                 resetBoard() }, 100)} 
         else { 
             paintLetterPositions(wordle, word)
+            
             if (focusRow + 1 >= gridY) { 
                 alert('Perdiste! La Palabra era: ' + wordle)
                 window.location.reload()
