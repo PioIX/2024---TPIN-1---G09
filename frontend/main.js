@@ -1,4 +1,5 @@
 let bancoDepalabras = []
+let users = []
 console.log(bancoDepalabras)
 let gridX = 5 
 let gridY = 6
@@ -12,25 +13,11 @@ const userPos = 0
 arrancarJuego()
 //--------------------------------------------------Registro y Login------------------------------------------------------
 
-//ejercicio21 Linkear métodos Ingreso FUNCIONA
-function linkIngreso(){
-    let monto=getMontoRetiroIngreso()
-    let moneda=getMonedaRetiroIngreso()
-    let mensaje= ""
-    if (clients[posCliente].ingresarDinero(monto,moneda)>=0){
-        mensaje="Ingreso realizado"
-    }else{
-        mensaje="Ingreso fallido"
-    }
-    putMensajeRetiroIngreso(mensaje) 
-    refreshDinero(clients[posCliente].cajaAhorroPesos, clients[posCliente].cajaAhorroDolares, clients[posCliente].descubierto, clients[posCliente].descubiertoUsado)
-}
-
 //ejercicio 18, función login FUNCIONA
-function login(dni, password){
-    for (let i = 0; i < clients.length; i++) {
-        if (clients[i].dni == dni && clients[i].password==password) {
-            return clients[i].id; // Devuelve la posición del cliente en el vector
+function login(username, password){
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].username == username && users[i].password==password) {
+            return users[i].id; // Devuelve el id del cliente en el vector
         }
     }
     return -1
@@ -38,11 +25,11 @@ function login(dni, password){
 
 //ejercicio 18, linkear métodos de login FUNCIONA
 function linkLogin(){
-    dni=getDniUser()
+    username=getUser()
     password=getPasswordUser()
-    clientId=login(dni, password)
-    if (clientId>=0){
-        posCliente=encontrarClientePorID(clientId)
+    userId=login(username, password)
+    if (userId>=0){
+        posCliente=encontrarClientePorID(userId)
         changeScreen()
         cargarDropdowns();
         window.alert("Usuario logeado")
@@ -71,14 +58,14 @@ function register(dni, password, nameUser, surname, ingresosAnuales){
 
 //ejercicio 19, linkear métodos de registro FUNCIONA
 function linkRegister(){
-    dni=getDniUser()
+    username=getUser()
     password=getPasswordUser()
+    mail=getMailUser()
     nameUser=getNameUser()
     surname=getSurnameUser()
-    ingresosAnuales=getIngresosAnualesUser()
-    clientId=register(dni, password, nameUser, surname, ingresosAnuales)
+    userId=register(username, password, mail, nameUser, surname)
     if (clientId>0){
-        posCliente=encontrarClientePorID(clientId)
+        userId=encontrarClientePorID(userId)
         changeScreen()
         cargarDropdowns();
         window.alert("Usuario creado y logeado")
@@ -107,6 +94,7 @@ function logout(){
 
 async function arrancarJuego() {
     bancoDepalabras = await getPalabras()
+    users= await getUsers()
     wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
     wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)].Word
 }
@@ -208,6 +196,22 @@ async function getPalabras(){
         const words = await response.json();
         console.log(words);
         return words;
+        }
+    }catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+async function getUsers(){
+    //función
+    try{
+        const response = await fetch("http://localhost:3000/getUser",{});
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }else{
+        const users = await response.json();
+        console.log(users);
+        return users;
         }
     }catch (error) {
         console.error('Error fetching data:', error);

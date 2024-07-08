@@ -120,8 +120,8 @@ function changeScreen() {
 }
 
 //ejercicio 18, traer DNI de usuario FUNCIONA
-function getDniUser(){
-    return Number.parseInt(document.getElementById("dniUser").value)
+function getUser(){
+    return Number.parseInt(document.getElementById("userUser").value)
 }
 
 //ejercicio 18, traer password de usuario FUNCIONA
@@ -130,17 +130,17 @@ function getPasswordUser(){
 }
 
 //ejercicio 19, traer nombre de usuario FUNCIONA
+function getMailUser(){
+    return document.getElementById("mailUser").value
+}
+
+//ejercicio 19, traer apellido de usuario FUNCIONA
 function getNameUser(){
     return document.getElementById("nameUser").value
 }
 
-//ejercicio 19, traer apellido de usuario FUNCIONA
+//ejercicio 19, traer ingresos anuales FUNCIONA
 function getSurnameUser(){
     return document.getElementById("surnameUser").value
-}
-
-//ejercicio 19, traer ingresos anuales FUNCIONA
-function getIngresosAnualesUser(){
-    return document.getElementById("ingresosAnualesUser").value
 }
 
