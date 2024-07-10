@@ -234,3 +234,17 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const togglePassword = document.querySelector(".toggle-password");
+    const passwordInput = document.getElementById("passwordUser");
+
+    togglePassword.addEventListener("click", function() {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+        } else {
+            passwordInput.type = "password";
+        }
+    });
+});

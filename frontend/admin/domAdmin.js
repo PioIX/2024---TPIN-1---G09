@@ -149,6 +149,8 @@ async function getUser() {
                     <td>${result[i].Username}</td>
                     <td>${result[i].Email_Address}</td>
                     <td>${result[i].Password}</td>
+                    <td>${result[i].Name}</td>
+                    <td>${result[i].Surname}</td>
                     <td>
                         <button type="button" class="btn btn-primary" onclick="userDelete('${result[i].UserID}')">Delete</button>
                     </td>
@@ -170,13 +172,18 @@ function escondoTablaUser() {
 
 async function userPost() {
   // Show confirmation dialog
+  
   if (confirm("Are you sure you want to insert this record?")) {
+    event.preventDefault();
     const data = {
-      UserID: document.getElementById("UserIDPost").value,
+      // UserID: document.getElementById("UserIDPost").value,
       Username: document.getElementById("UsernamePost").value,
       Email_Address: document.getElementById("EmailaddressPost").value,
       Password: document.getElementById("PasswordPost").value,
+      Name: document.getElementById("NamePost").value,
+      Surname: document.getElementById("SurnamePost").value,
     };
+    
 
     try {
       const response = await fetch("http://localhost:3000/insertUser", {
@@ -233,6 +240,8 @@ async function userPut() {
       Username: document.getElementById("UsernamePut").value,
       Email_Address: document.getElementById("EmailaddressPut").value,
       Password: document.getElementById("PasswordPut").value,
+      Name: document.getElementById("NamePut").value,
+      Surname: document.getElementById("SurnamePut").value,
     };
 
     try {
@@ -277,10 +286,8 @@ async function getGame() {
                 <tr class="table-primary">
                     <td scope="row">${result[i].GameID}</td>
                     <td>${result[i].UserID}</td>
-                    <td>${result[i].Time}</td>
+                    <td>${result[i].LastWord}</td>
                     <td>${result[i].BestStreak}</td>
-                    <td>${result[i].Attempts}</td>
-                    <td>${result[i].LettersUsed}</td>
                     <td>
                         <button type="button" class="btn btn-primary" onclick="gameDelete('${result[i].GameID}')">Delete</button>
                     </td>
@@ -307,12 +314,10 @@ async function gamePost() {
 
 
     const data = {
-      GameID: document.getElementById("GameIDPost").value,
+      // GameID: document.getElementById("GameIDPost").value,
       UserID: document.getElementById("UserIDPostG").value,
-      Time: document.getElementById("TimePost").value,
+      LastWord: document.getElementById("LastWordPost").value,
       BestStreak: document.getElementById("BestStreakPost").value,
-      Attempts: document.getElementById("AttemptsPost").value,
-      LettersUsed: document.getElementById("LettersUsedPost").value,
     };
     console.log(data);
     console.log(data.UserID);
@@ -369,10 +374,8 @@ async function gamePut() {
     const objeto = {
       GameID: document.getElementById("GameIDPut").value,
       UserID: document.getElementById("UserIDPutG").value,
-      Time: document.getElementById("TimePut").value,
+      Time: document.getElementById("LastWordPut").value,
       BestStreak: document.getElementById("BestStreakPut").value,
-      Attempts: document.getElementById("AttemptsPut").value,
-      LettersUsed: document.getElementById("LettersUsedPut").value,
     };
     console.log(objeto);
     try {

@@ -38,19 +38,24 @@
     
     <form id="formulario2">
         <h3>POST</h3>
-        <input type="text" id="UserIDPost" class="Input" placeholder="UserID">
+        <!-- <input type="number" id="UserIDPost" class="Input" placeholder="UserID"> -->
         <input type="text" id="UsernamePost" class="Input" placeholder="Username">
-        <input type="text" id="EmailaddressPost" class="Input" placeholder="Emailaddress">
+        <input type="text" id="EmailaddressPost" class="Input" placeholder="Email address">
         <input type="text" id="PasswordPost" class="Input" placeholder="Password">
+        <input type="text" id="NamePost" class="Input" placeholder="Name">
+        <input type="text" id="SurnamePost" class="Input" placeholder="Surname">
+
         <button type="button" class="btn btn-primary" onclick="userPost()">Enviar</button>
     </form>
     <br>
     <form id="formulario3">
         <h3>PUT</h3>
-        <input type="text" id="UserIDPut" class="Input"placeholder="UserID">
+        <input type="number" id="UserIDPut" class="Input"placeholder="UserID">
         <input type="text" id="UsernamePut" class="Input" placeholder="Username">
-        <input type="text" id="EmailaddressPut" class="Input" placeholder="Emailaddress">
+        <input type="text" id="EmailaddressPut" class="Input" placeholder="Email address">
         <input type="text" id="PasswordPut" class="Input" placeholder="Password">
+        <input type="text" id="NamePut" class="Input" placeholder="Name">
+        <input type="text" id="SurnamePut" class="Input" placeholder="Surname">
         <button type="button" class="btn btn-primary" onclick="userPut('${result[i].UserID}')">Update</button>
     </form>
 <br>
@@ -61,23 +66,19 @@
     
     <form id="formulario4">
         <h3>POST</h3>
-        <input type="number" id="GameIDPost" class="Input"placeholder="GameID">
-        <input type="text" id="UserIDPostG" class="Input"placeholder="UserID">
-        <input type="number" id="TimePost" class="Input"placeholder="Time">
+        <!-- <input type="number" id="GameIDPost" class="Input"placeholder="GameID"> -->
+        <input type="number" id="UserIDPostG" class="Input"placeholder="UserID">
+        <input type="text" id="LastWordPost" class="Input"placeholder="Lasst word">
         <input type="number" id="BestStreakPost" class="Input"placeholder="Best Streak">
-        <input type="number" id="AttemptsPost" class="Input"placeholder="Attempts ">
-        <input type="number" id="LettersUsedPost" class="Input"placeholder="LettersUsed">
         <button type="button" class="btn btn-primary" onclick="gamePost()">Enviar</button>
     </form>
     <br>
     <form id="formulario5">
         <h3>PUT</h3>
         <input type="number" id="GameIDPut" class="Input"placeholder="GameID">
-        <input type="text" id="UserIDPutG" class="Input"placeholder="UserID">
-        <input type="number" id="TimePut" class="Input"placeholder="Time">
+        <input type="number" id="UserIDPutG" class="Input"placeholder="UserID">
+        <input type="text" id="LastWordPut" class="Input"placeholder="LastWord">
         <input type="number" id="BestStreakPut" class="Input"placeholder="Best Streak">
-        <input type="number" id="AttemptsPut" class="Input"placeholder="Attempts ">
-        <input type="number" id="LettersUsedPut" class="Input"placeholder="LettersUsed">
         <button type="button" class="btn btn-primary" onclick="gamePut('${result[i].GameID}')">Update</button>
     </form>
 </body>
