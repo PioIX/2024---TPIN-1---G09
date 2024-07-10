@@ -88,8 +88,9 @@ app.post("/insertUser", async function (req, res) {
   }
 
   await MySQL.realizarQuery(
-    `INSERT INTO User (UserID, Username, Email_Address, Password ) VALUES ('${req.body.UserID}','${req.body.Username}', '${req.body.Email_Address}','${req.body.Password}')`
-  );
+    `INSERT INTO User (Username, Email_Address, Password, Name, Surname ) VALUES ('${req.body.Username}', '${req.body.Email_Address}','${req.body.Password}', '${req.body.Name}', '${req.body.Surname}')`
+);
+
 
   res.send("User insert succeffuly.");
 });
@@ -98,8 +99,10 @@ app.put('/putUser', async function(req, res){
   await MySQL.realizarQuery(`UPDATE User
   SET
   Username = '${req.body.Username}',
-   Email_Address = '${req.body.Email_Address}',
-    Password = '${req.body.Password}'
+  Email_Address = '${req.body.Email_Address}',
+  Password = '${req.body.Password}',
+  Name = '${req.body.Name}',
+  Surname = '${req.body.Surname}',
   WHERE UserID = '${req.body.UserID}'`);
   res.send("ok");
 })
@@ -132,25 +135,31 @@ app.post("/insertGame", async function (req, res) {
   );
 
   if (existingGame.length > 0) {
-    console.error("a Game with this ID allredy exist.");
-    return res.status(400).send("a Game with this ID allredy exist.");
+    console.error("A game with this ID already exists.");
+    return res.status(400).send("A game with this ID already exists.");
   }
 
-  await MySQL.realizarQuery(
-    `INSERT INTO Game (GameID, UserID, Time, BestStreak, Attempts, LettersUsed) VALUES ('${req.body.GameID}','${req.body.UserID}', '${req.body.Time}','${req.body.BestStreak}','${req.body.Attempts}','${req.body.LettersUsed}')`
-  );
+  try {
+    await MySQL.realizarQuery(
+      `INSERT INTO Game (UserID, LastWord, BestStreak)
+       VALUES (${req.body.UserID}, '${req.body.LastWord}', ${req.body.BestStreak})`
+    );
 
-  res.send("Game insert succeffuly.");
+    console.log("Game inserted successfully.");
+    res.send("Game inserted successfully.");
+  } catch (error) {
+    console.error("Error inserting game:", error);
+    res.status(500).send("Error inserting game.");
+  }
 });
+
 
 app.put('/putGame', async function(req, res){
   await MySQL.realizarQuery(`UPDATE Game
   SET
   UserID = '${req.body.UserID}',
-  Time = '${req.body.Time}',
+  LastWord = '${req.body.LastWord}',
   BestStreak = '${req.body.BestStreak}',
-  Attempts = '${req.body.Attempts}',
-  LettersUsed = '${req.body.LettersUsed}'
   WHERE GameID = '${req.body.GameID}'`);
   res.send("ok");
 })
