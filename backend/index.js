@@ -91,7 +91,6 @@ app.post("/insertUser", async function (req, res) {
     `INSERT INTO User (Username, Email_Address, Password, Name, Surname ) VALUES ('${req.body.Username}', '${req.body.Email_Address}','${req.body.Password}', '${req.body.Name}', '${req.body.Surname}')`
 );
 
-
   res.send("User insert succeffuly.");
 });
 
@@ -138,6 +137,7 @@ app.post("/insertGame", async function (req, res) {
     console.error("A game with this ID already exists.");
     return res.status(400).send("A game with this ID already exists.");
   }
+
 
   try {
     await MySQL.realizarQuery(

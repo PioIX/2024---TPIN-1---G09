@@ -106,22 +106,37 @@ function paintLetterPositions(word1, word2) {
 // Funciones de Login
 
 // Cambiar pantalla
-function changeScreen() {
-    const game = document.getElementById("game");
+function screenLogin() {
     const login = document.getElementById("login");
-    if(game.style.display !== "none") {
-        game.style.display = "none";
-        login.style.display = "";
-    }
-    else {
-        game.style.display = "";
-        login.style.display = "none";
-    }
+    const game = document.getElementById("game");
+    const stats = document.getElementById("stats");
+    login.style.display = "";
+    game.style.display = "none";
+    stats.style.display = "none";
+    arrancarJuego()
+}
+
+function screenGame() {
+    const login = document.getElementById("login");
+    const game = document.getElementById("game");
+    const stats = document.getElementById("stats");
+    login.style.display = "none";
+    game.style.display = "";
+    stats.style.display = "none";
+}
+
+function screenStats() {
+    const login = document.getElementById("login");
+    const game = document.getElementById("game");
+    const stats = document.getElementById("stats");
+    login.style.display = "none";
+    game.style.display = "none";
+    stats.style.display = "";
 }
 
 //ejercicio 18, traer DNI de usuario FUNCIONA
 function getUser(){
-    return Number.parseInt(document.getElementById("userUser").value)
+    return document.getElementById("userUser").value
 }
 
 //ejercicio 18, traer password de usuario FUNCIONA

@@ -8,16 +8,27 @@ let wordle = ""
 let keyboardLayoutRow1 = "qwertyuiop" 
 let keyboardLayoutRow2 = "asdfghjkl" 
 let keyboardLayoutRow3 = "zxcvbnm"
-const userId = 0
-const userPos = 0
+let userId = 0
+let userPos = 0
 arrancarJuego()
 //--------------------------------------------------Registro y Login------------------------------------------------------
+
+//encontrar cliente por id
+function encontrarUserPorID(id) {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].id === id) {
+            return i; // Devuelve la posición del cliente en el vector
+        }
+    }
+    return -1; // Si no se encuentra el cliente, devuelve -1
+}
 
 //ejercicio 18, función login FUNCIONA
 function login(username, password){
     for (let i = 0; i < users.length; i++) {
-        if (users[i].username == username && users[i].password==password) {
-            return users[i].id; // Devuelve el id del cliente en el vector
+        if (users[i].Username == username && users[i].Password==password) {
+            console.log(users[i].Id)
+            return users[i].UserID; // Devuelve el id del user
         }
     }
     return -1
@@ -27,11 +38,11 @@ function login(username, password){
 function linkLogin(){
     username=getUser()
     password=getPasswordUser()
+    console.log(username, password)
     userId=login(username, password)
     if (userId>=0){
-        posCliente=encontrarClientePorID(userId)
-        changeScreen()
-        cargarDropdowns();
+        posUser=encontrarUserPorID(userId)
+        screenGame()
         window.alert("Usuario logeado")
     }else{
         window.alert("Ha ocurrido un error, intentalo de nuevo")
@@ -66,8 +77,7 @@ function linkRegister(){
     userId=register(username, password, mail, nameUser, surname)
     if (clientId>0){
         userId=encontrarClientePorID(userId)
-        changeScreen()
-        cargarDropdowns();
+        screenGame()
         window.alert("Usuario creado y logeado")
     }else if(clientId==-1){
         window.alert("DNI inválido")
@@ -84,9 +94,9 @@ function linkRegister(){
 
 //ejercicio 20, función de logout FUNCIONA
 function logout(){
-    clientId = -1
-    posCliente= -1
-    changeScreen()
+    userId = -1
+    posUser= -1
+    screenLogin()
     window.alert("Ha cerrado su cuenta con éxito")
 }
 
