@@ -106,22 +106,37 @@ function paintLetterPositions(word1, word2) {
 // Funciones de Login
 
 // Cambiar pantalla
-function changeScreen() {
-    const game = document.getElementById("game");
+function screenLogin() {
     const login = document.getElementById("login");
-    if(game.style.display !== "none") {
-        game.style.display = "none";
-        login.style.display = "";
-    }
-    else {
-        game.style.display = "";
-        login.style.display = "none";
-    }
+    const game = document.getElementById("game");
+    const stats = document.getElementById("stats");
+    login.style.display = "";
+    game.style.display = "none";
+    stats.style.display = "none";
+    arrancarJuego()
+}
+
+function screenGame() {
+    const login = document.getElementById("login");
+    const game = document.getElementById("game");
+    const stats = document.getElementById("stats");
+    login.style.display = "none";
+    game.style.display = "";
+    stats.style.display = "none";
+}
+
+function screenStats() {
+    const login = document.getElementById("login");
+    const game = document.getElementById("game");
+    const stats = document.getElementById("stats");
+    login.style.display = "none";
+    game.style.display = "none";
+    stats.style.display = "";
 }
 
 //ejercicio 18, traer DNI de usuario FUNCIONA
-function getDniUser(){
-    return Number.parseInt(document.getElementById("dniUser").value)
+function getUser(){
+    return document.getElementById("userUser").value
 }
 
 //ejercicio 18, traer password de usuario FUNCIONA
@@ -130,17 +145,17 @@ function getPasswordUser(){
 }
 
 //ejercicio 19, traer nombre de usuario FUNCIONA
+function getMailUser(){
+    return document.getElementById("mailUser").value
+}
+
+//ejercicio 19, traer apellido de usuario FUNCIONA
 function getNameUser(){
     return document.getElementById("nameUser").value
 }
 
-//ejercicio 19, traer apellido de usuario FUNCIONA
+//ejercicio 19, traer ingresos anuales FUNCIONA
 function getSurnameUser(){
     return document.getElementById("surnameUser").value
-}
-
-//ejercicio 19, traer ingresos anuales FUNCIONA
-function getIngresosAnualesUser(){
-    return document.getElementById("ingresosAnualesUser").value
 }
 

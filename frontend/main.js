@@ -1,4 +1,5 @@
 let bancoDepalabras = []
+let users = []
 console.log(bancoDepalabras)
 let gridX = 5 
 let gridY = 6
@@ -7,34 +8,27 @@ let wordle = ""
 let keyboardLayoutRow1 = "qwertyuiop" 
 let keyboardLayoutRow2 = "asdfghjkl" 
 let keyboardLayoutRow3 = "zxcvbnm"
-changeScreen()
+let userId = 0
+let userPos = 0
 arrancarJuego()
 //--------------------------------------------------Registro y Login------------------------------------------------------
 
-async function arrancarJuego() {
-    bancoDepalabras = await getPalabras()
-    wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
-    wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)].Word
-}
-//ejercicio21 Linkear métodos Ingreso FUNCIONA
-function linkIngreso(){
-    let monto=getMontoRetiroIngreso()
-    let moneda=getMonedaRetiroIngreso()
-    let mensaje= ""
-    if (clients[posCliente].ingresarDinero(monto,moneda)>=0){
-        mensaje="Ingreso realizado"
-    }else{
-        mensaje="Ingreso fallido"
+//encontrar cliente por id
+function encontrarUserPorID(id) {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].id === id) {
+            return i; // Devuelve la posición del cliente en el vector
+        }
     }
-    putMensajeRetiroIngreso(mensaje) 
-    refreshDinero(clients[posCliente].cajaAhorroPesos, clients[posCliente].cajaAhorroDolares, clients[posCliente].descubierto, clients[posCliente].descubiertoUsado)
+    return -1; // Si no se encuentra el cliente, devuelve -1
 }
 
 //ejercicio 18, función login FUNCIONA
-function login(dni, password){
-    for (let i = 0; i < clients.length; i++) {
-        if (clients[i].dni == dni && clients[i].password==password) {
-            return clients[i].id; // Devuelve la posición del cliente en el vector
+function login(username, password){
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].Username == username && users[i].Password==password) {
+            console.log(users[i].Id)
+            return users[i].UserID; // Devuelve el id del user
         }
     }
     return -1
@@ -42,13 +36,13 @@ function login(dni, password){
 
 //ejercicio 18, linkear métodos de login FUNCIONA
 function linkLogin(){
-    dni=getDniUser()
+    username=getUser()
     password=getPasswordUser()
-    clientId=login(dni, password)
-    if (clientId>=0){
-        posCliente=encontrarClientePorID(clientId)
-        changeScreen()
-        cargarDropdowns();
+    console.log(username, password)
+    userId=login(username, password)
+    if (userId>=0){
+        posUser=encontrarUserPorID(userId)
+        screenGame()
         window.alert("Usuario logeado")
     }else{
         window.alert("Ha ocurrido un error, intentalo de nuevo")
@@ -75,16 +69,15 @@ function register(dni, password, nameUser, surname, ingresosAnuales){
 
 //ejercicio 19, linkear métodos de registro FUNCIONA
 function linkRegister(){
-    dni=getDniUser()
+    username=getUser()
     password=getPasswordUser()
+    mail=getMailUser()
     nameUser=getNameUser()
     surname=getSurnameUser()
-    ingresosAnuales=getIngresosAnualesUser()
-    clientId=register(dni, password, nameUser, surname, ingresosAnuales)
+    userId=register(username, password, mail, nameUser, surname)
     if (clientId>0){
-        posCliente=encontrarClientePorID(clientId)
-        changeScreen()
-        cargarDropdowns();
+        userId=encontrarClientePorID(userId)
+        screenGame()
         window.alert("Usuario creado y logeado")
     }else if(clientId==-1){
         window.alert("DNI inválido")
@@ -101,13 +94,21 @@ function linkRegister(){
 
 //ejercicio 20, función de logout FUNCIONA
 function logout(){
-    clientId = -1
-    posCliente= -1
-    changeScreen()
+    userId = -1
+    posUser= -1
+    screenLogin()
     window.alert("Ha cerrado su cuenta con éxito")
 }
 
 //------------------------------------------------------- Funciones de juego ----------------------------------------------------------------------
+
+async function arrancarJuego() {
+    bancoDepalabras = await getPalabras()
+    users= await getUsers()
+    wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
+    wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)].Word
+}
+
 function checkResponse() { 
     let word = ''
     for (let i = 0; i < focusCol; i++) {
@@ -126,6 +127,7 @@ function checkResponse() {
                 resetBoard() }, 100)} 
         else { 
             paintLetterPositions(wordle, word)
+            
             if (focusRow + 1 >= gridY) { 
                 alert('Perdiste! La Palabra era: ' + wordle)
                 window.location.reload()
@@ -204,6 +206,22 @@ async function getPalabras(){
         const words = await response.json();
         console.log(words);
         return words;
+        }
+    }catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+async function getUsers(){
+    //función
+    try{
+        const response = await fetch("http://localhost:3000/getUser",{});
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }else{
+        const users = await response.json();
+        console.log(users);
+        return users;
         }
     }catch (error) {
         console.error('Error fetching data:', error);
