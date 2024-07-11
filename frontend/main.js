@@ -1,6 +1,5 @@
 let bancoDepalabras = []
 let users = []
-console.log(bancoDepalabras)
 let gridX = 5 
 let gridY = 6
 let wordleObj = ""
@@ -9,7 +8,6 @@ let keyboardLayoutRow1 = "qwertyuiop"
 let keyboardLayoutRow2 = "asdfghjkl" 
 let keyboardLayoutRow3 = "zxcvbnm"
 let userId = 0
-let userPos = 0
 arrancarJuego()
 //--------------------------------------------------Registro y Login------------------------------------------------------
 
@@ -27,7 +25,6 @@ function encontrarUserPorID(id) {
 function login(username, password){
     for (let i = 0; i < users.length; i++) {
         if (users[i].Username == username && users[i].Password==password) {
-            console.log(users[i].Id)
             return users[i].UserID; // Devuelve el id del user
         }
     }
@@ -38,10 +35,11 @@ function login(username, password){
 function linkLogin(){
     username=getUser()
     password=getPasswordUser()
-    console.log(username, password)
     userId=login(username, password)
-    if (userId>=0){
-        posUser=encontrarUserPorID(userId)
+    if(userId==1){
+        window.alert("Bienvenido Admin")
+        window.location.href = 'admin/admin.html'
+    }else if (userId>=0){
         screenGame()
         window.alert("Usuario logeado")
     }else{
@@ -50,8 +48,8 @@ function linkLogin(){
 }
 
 //ejercicio 19, función registro FUNCIONA
-function register(dni, password, nameUser, surname, ingresosAnuales){
-    if(dni<1000000){
+function register(username, password, mail, nameUser, surname){
+    if(username.length<4){
         return -1
     }else if(password.length<5){
         return -2
@@ -59,36 +57,35 @@ function register(dni, password, nameUser, surname, ingresosAnuales){
         return -3
     }else if(surname.length<3){
         return -4
-    }else if(ingresosAnuales<100000){ //política bancaria-> mínimo 100000 anual
+    }else if(mail.length<6){
         return -5
     }else{
-        clients.push(new Client(dni, password, nameUser, surname, ingresosAnuales))
-        return idClient-1
+        postUser(username, password, mail, nameUser, surname)
+        return 1
     }
 }
 
 //ejercicio 19, linkear métodos de registro FUNCIONA
-function linkRegister(){
+async function linkRegister(){
     username=getUser()
     password=getPasswordUser()
     mail=getMailUser()
     nameUser=getNameUser()
     surname=getSurnameUser()
-    userId=register(username, password, mail, nameUser, surname)
-    if (clientId>0){
-        userId=encontrarClientePorID(userId)
-        screenGame()
-        window.alert("Usuario creado y logeado")
-    }else if(clientId==-1){
-        window.alert("DNI inválido")
-    }else if(clientId==-2){
+    crear=register(username, password, mail, nameUser, surname)
+    await arrancarJuego()
+    if (crear>0){
+        linkLogin()
+    }else if(crear==-1){
+        window.alert("Username inválido")
+    }else if(crear==-2){
         window.alert("Contraseña muy corta")
-    }else if(clientId==-3){
+    }else if(crear==-3){
         window.alert("Nombre muy corto")
-    }else if(clientId==-4){
+    }else if(crear==-4){
         window.alert("Apellido muy corto")
-    }else if(clientId==-5){
-        window.alert("solo admitimos clientes con más de 100000 pesos de ganancias anuales POBRE")
+    }else if(crear==-5){
+        window.alert("Escribi bien el mail")
     }
 }
 
@@ -226,6 +223,32 @@ async function getUsers(){
     }catch (error) {
         console.error('Error fetching data:', error);
     }
+}
+
+async function postUser(usuario, mail, contra, nombre, apellido){
+        const user={
+            Username:usuario,
+            Email_Address:mail,
+            Password:contra,
+            Name:nombre,
+            Surname:apellido
+        }
+        try{
+            const response = await fetch('http://localhost:3000/insertUser', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(user),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to insert data');
+            }else{
+            window.alert("se ha creado el usuario")
+            }
+        }catch (error) {
+            console.error('Error inserting data:', error);
+        }
 }
 
 // Funciones letias
