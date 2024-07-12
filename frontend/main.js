@@ -1,5 +1,6 @@
 let bancoDepalabras = []
 let users = []
+let games =[]
 let gridX = 5 
 let gridY = 6
 let wordleObj = ""
@@ -121,7 +122,7 @@ async function arrancarJuego() {
     wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
 }
 
-function checkResponse() { 
+async function checkResponse() { 
     let word = ''
     let wordle = wordleObj.Word 
     for (let i = 0; i < focusCol; i++) {
@@ -134,7 +135,7 @@ function checkResponse() {
         }if (word === wordle) { 
             paintLetterPositions(wordle, word)
             setTimeout(() => { 
-                alert('Perdiste! La Palabra era: ' + wordle + '. \nEsto significa: ' + wordleObj.Info) 
+                alert('Acertaste! La Palabra era: ' + wordle + '. \nEsto significa: ' + wordleObj.Info) 
                 document.getElementById('score').textContent = parseInt(document.getElementById('score')
                 .textContent) + 1
                 resetBoard() }, 100)} 
@@ -143,7 +144,11 @@ function checkResponse() {
             
             if (focusRow + 1 >= gridY) { 
                 alert('Perdiste! La Palabra era: ' + wordle + '. \nEsto significa: ' + wordleObj.Info)
-                goStats()
+                await postGame(userId, wordle, parseInt(document.getElementById('score')
+                .textContent))
+                
+                goStats(parseInt(document.getElementById('score')
+                .textContent))
             }
             moveFocus(++focusRow, 0)
             focusCol = 0
@@ -207,11 +212,23 @@ document.body.addEventListener('click',(e) => {
     e.stopPropagation()
 },)
 
+function replay(){
+    resetBoard()
+    screenGame()
+    document.getElementById('score').textContent = 0
+}
 //------------------------------------------- Funciones de estadísticas ---------------------------------------------------
 
-function goStats() {
-    screenStats(streak, bestStreak, lastWord, wordDefinition)
+function goStats(puntaje) {
+    screenStats()
+    userPos=encontrarUserPorID(userId)
+    maxStreak=encontrarMaxStreakPorID(userId)
+    loadStats(users[userPos], puntaje, maxStreak)
     resetBoard()
+}
+
+function encontrarMaxStreakPorID(userId){
+    //hacer funcion que reciba el id del usuario y traiga los juegos, se fije cuales son del usuario y entre los que son del usuario encuentre el maximo y lo devuelva
 }
 
 //------------------------------------------- Funciones para el back --------------------------------------------------------------------------
@@ -246,18 +263,32 @@ async function getUsers(){
     }
 }
 
-async function postUser(usuario, contra, mail, nombre, apellido){
+
+async function getJuegos(){
+    //función
+    try{
+        const response = await fetch("http://localhost:3000/getGame",{});
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }else{
+        const games = await response.json();
+        return games;
+        }
+    }catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+async function postGame(usuario, palabra, puntaje){
         const user={
-            Username:usuario,
-            Email_Address:mail,
-            Password:contra,
-            Name:nombre,
-            Surname:apellido
+            UserID:usuario,
+            LastWord:palabra,
+            BestStreak:puntaje,
         }
         
         console.log(user)
         try{
-            const response = await fetch('http://localhost:3000/insertUser', {
+            const response = await fetch('http://localhost:3000/insertGame', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -267,14 +298,41 @@ async function postUser(usuario, contra, mail, nombre, apellido){
             if (!response.ok) {
                 throw new Error('Failed to insert data');
             }else{
-            window.alert("se ha creado el usuario")
             }
         }catch (error) {
             console.error('Error inserting data:', error);
         }
 }
 
-// Funciones letias
+async function postUser(usuario, contra, mail, nombre, apellido){
+    const user={
+        Username:usuario,
+        Email_Address:mail,
+        Password:contra,
+        Name:nombre,
+        Surname:apellido
+    }
+    
+    console.log(user)
+    try{
+        const response = await fetch('http://localhost:3000/insertUser', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        });
+        if (!response.ok) {
+            throw new Error('Failed to insert data');
+        }else{
+        window.alert("se ha creado el usuario")
+        }
+    }catch (error) {
+        console.error('Error inserting data:', error);
+    }
+}
+
+// Funciones extras
 function getRandomInt(min, max) { 
     min = Math.ceil(min);
     max = Math.floor(max);
