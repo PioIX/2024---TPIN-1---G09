@@ -117,7 +117,6 @@ function screenLogin() {
 }
 
 function screenGame() {
-    arrancarJuego()
     const login = document.getElementById("login");
     const game = document.getElementById("game");
     const stats = document.getElementById("stats");

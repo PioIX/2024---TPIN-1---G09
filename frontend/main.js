@@ -1,7 +1,5 @@
-let bancoDePalabras = []
+let bancoDepalabras = []
 let users = []
-
-let games = []
 let gridX = 5 
 let gridY = 6
 let wordleObj = ""
@@ -19,9 +17,8 @@ function encontrarUserPorID(id) {
             return i; // Devuelve la posición del cliente en el vector
         }
     }
-    return -1; // Si no se encuentra el user, devuelve -1
+    return -1; // Si no se encuentra el cliente, devuelve -1
 }
-
 
 function repiteName(usernameBuscado) {
     // Recorremos el array de usuarios
@@ -64,10 +61,8 @@ async function linkLogin(){
 }
 
 //ejercicio 19, función registro FUNCIONA
-
 async function register(username, password, mail, nameUser, surname){
     if(username.length<4||repiteName(username)){
-
         return -1
     }else if(password.length<5){
         return -2
@@ -75,7 +70,6 @@ async function register(username, password, mail, nameUser, surname){
         return -3
     }else if(surname.length<3){
         return -4
-
     }else if(mail.length<6){
         return -5
     }else{
@@ -108,7 +102,7 @@ async function linkRegister(){
     }
 }
 
-//función de logout FUNCIONA
+//ejercicio 20, función de logout FUNCIONA
 function logout(){
     screenLogin()
     if (userId>0){
@@ -119,46 +113,11 @@ function logout(){
     userId = -1
 }
 
-startPage()
-
-
-async function postUser(usuario, mail, contra, nombre, apellido){
-    if(confirm("tas seguro?")){
-        const user={
-            Username:usuario,
-            Email_Address:mail,
-            Password:contra,
-            Name:nombre,
-            Surname:apellido
-        }
-        try{
-            const response = await fetch('http://localhost:3000/insertUser', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(user),
-            });
-            if (!response.ok) {
-                throw new Error('Failed to insert data');
-            }else{
-            window.alert("se ha creado el usuario")
-            }
-        }catch (error) {
-            console.error('Error inserting data:', error);
-        }
-    }
-}
-
 //------------------------------------------------------- Funciones de juego ----------------------------------------------------------------------
-async function startPage(){
-    bancoDePalabras = await getPalabras()
-    users= await getUsers()
-    console.log(users)
-    console.log(bancoDePalabras)
-}
 
 async function arrancarJuego() {
+    bancoDepalabras = await getPalabras()
+    users= await getUsers()
     wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
 }
 
@@ -257,7 +216,6 @@ function goStats() {
 
 //------------------------------------------- Funciones para el back --------------------------------------------------------------------------
 
-
 async function getPalabras(){
     //función
     try{
@@ -288,7 +246,6 @@ async function getUsers(){
     }
 }
 
-
 async function postUser(usuario, contra, mail, nombre, apellido){
         const user={
             Username:usuario,
@@ -297,6 +254,8 @@ async function postUser(usuario, contra, mail, nombre, apellido){
             Name:nombre,
             Surname:apellido
         }
+        
+        console.log(user)
         try{
             const response = await fetch('http://localhost:3000/insertUser', {
                 method: "POST",
@@ -313,16 +272,15 @@ async function postUser(usuario, contra, mail, nombre, apellido){
         }catch (error) {
             console.error('Error inserting data:', error);
         }
-
 }
 
 // Funciones letias
-
 function getRandomInt(min, max) { 
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
 
 document.addEventListener("DOMContentLoaded", function() {
     const togglePassword = document.querySelector(".toggle-password");
