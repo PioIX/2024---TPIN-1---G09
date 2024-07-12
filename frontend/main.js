@@ -1,7 +1,6 @@
-let bancoDepalabras = []
+let bancoDePalabras = []
 let users = []
 let games = []
-console.log(bancoDepalabras)
 let gridX = 5 
 let gridY = 6
 let wordleObj = ""
@@ -101,6 +100,9 @@ function logout(){
     window.alert("Ha cerrado su cuenta con éxito")
 }
 
+startPage()
+
+
 async function postUser(usuario, mail, contra, nombre, apellido){
     if(confirm("tas seguro?")){
         const user={
@@ -130,10 +132,14 @@ async function postUser(usuario, mail, contra, nombre, apellido){
 }
 
 //------------------------------------------------------- Funciones de juego ----------------------------------------------------------------------
+async function startPage(){
+    bancoDePalabras = await getPalabras()
+    users= await getUsers()
+    console.log(users)
+    console.log(bancoDePalabras)
+}
 
 async function arrancarJuego() {
-    bancoDepalabras = await getPalabras()
-    users= await getUsers()
     wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
     wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)].Word
 }
@@ -223,6 +229,85 @@ document.body.addEventListener('click',(e) => {
     e.stopPropagation()
 },)
 
+//--------------------------------------------------Registro y Login------------------------------------------------------
+
+//función login FUNCIONA
+function login(username, password){
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].Username == username && users[i].Password==password) {
+            return users[i].UserID; // Devuelve el id del user
+        }
+    }
+    return -1
+}
+
+//ejercicio 18, linkear métodos de login FUNCIONA
+function linkLogin(){
+    username=getUser()
+    password=getPasswordUser()
+    userId=login(username, password)
+    if (userId>=0){
+        posUser=encontrarUserPorID(userId)
+        screenGame()
+        window.alert("Usuario logeado")
+    }else{
+        window.alert("Ha ocurrido un error, intentalo de nuevo")
+    }
+}
+
+//ejercicio 19, función registro FUNCIONA
+function register(usuario, mail, contra, nombre, apellido){
+    if(usuario.length<4){
+        return -1
+    }else if(existenciaUsuario(usuario)<0){
+        return 0
+    }else if(password.length<5){
+        return -2
+    }else if(nameUser.length<3){
+        return -3
+    }else if(surname.length<3){
+        return -4
+    }else if(mail.length<6){ 
+        return -5
+    }else{
+        userId=postUser(usuario, mail, contra, nombre, apellido)
+        return 
+    }
+}
+
+//ejercicio 19, linkear métodos de registro FUNCIONA
+function linkRegister(){
+    username=getUser()
+    password=getPasswordUser()
+    mail=getMailUser()
+    nameUser=getNameUser()
+    surname=getSurnameUser()
+    userId=register(username, mail, password, nameUser, surname)
+    if (userId>0){
+        userId=encontrarUserPorID(userId)
+        screenGame()
+        window.alert("Usuario creado y logeado")
+    }else if(userId==-1){
+        window.alert("DNI inválido")
+    }else if(userId==-2){
+        window.alert("Contraseña muy corta")
+    }else if(userId==-3){
+        window.alert("Nombre muy corto")
+    }else if(userId==-4){
+        window.alert("Apellido muy corto")
+    }else if(userId==-5){
+        window.alert("Mail inválido")
+    }
+}
+
+//función de logout FUNCIONA
+function logout(){
+    userId = -1
+    posUser= -1
+    screenLogin()
+    window.alert("Ha cerrado su cuenta con éxito")
+}
+
 //-------------------------------------------Funciones para el back--------------------------------------------------------------------------
 
 async function getPalabras(){
@@ -233,7 +318,6 @@ async function getPalabras(){
             throw new Error('Network response was not ok');
         }else{
         const words = await response.json();
-        console.log(words);
         return words;
         }
     }catch (error) {
@@ -249,7 +333,6 @@ async function getUsers(){
             throw new Error('Network response was not ok');
         }else{
         const users = await response.json();
-        console.log(users);
         return users;
         }
     }catch (error) {
@@ -257,13 +340,78 @@ async function getUsers(){
     }
 }
 
-// Funciones letias
+async function getGames(){
+    //función
+    try{
+        const response = await fetch("http://localhost:3000/getGame",{});
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }else{
+        const game = await response.json();
+        return game;
+        }
+    }catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+async function postUser(usuario, mail, contra, nombre, apellido){
+    if(confirm("tas seguro?")){
+        const user={
+            Username:usuario,
+            Email_Address:mail,
+            Password:contra,
+            Name:nombre,
+            Surname:apellido
+        }
+        try{
+            const response = await fetch('http://localhost:3000/insertUser', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(user),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to insert data');
+            }else{
+            window.alert("se ha creado el usuario")
+            }
+        }catch (error) {
+            console.error('Error inserting data:', error);
+        }
+    }
+}
+
+
+//-----------------------------------------------------------Funciones extras---------------------------------------------------------------------------
+
+//chequear si existe un usuario
+function existenciaUsuario(username){
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].Username === username) {
+            return i; // Devuelve la posición del user en el vector
+            }
+        }
+    return -1; // Si no se encuentra el user, devuelve -1
+}
+
+//encontrar cliente por id
+function encontrarUserPorID(id) {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].UserID === id) {
+            return i; // Devuelve la posición del user en el vector
+        }
+    }
+    return -1; // Si no se encuentra el user, devuelve -1
+}
+
+
 function getRandomInt(min, max) { 
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 
 document.addEventListener("DOMContentLoaded", function() {
     const togglePassword = document.querySelector(".toggle-password");
