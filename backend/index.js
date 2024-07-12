@@ -79,7 +79,7 @@ app.post("/insertUser", async function (req, res) {
   console.log(req.body);
 
   const existingUser = await MySQL.realizarQuery(
-    `SELECT * FROM User WHERE Username = '${req.body.Username}'`
+    `SELECT * FROM User WHERE UserID = '${req.body.UserID}'`
   );
 
   if (existingUser.length > 0) {

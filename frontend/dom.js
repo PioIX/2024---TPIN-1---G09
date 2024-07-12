@@ -117,7 +117,6 @@ function screenLogin() {
 }
 
 function screenGame() {
-    arrancarJuego()
     const login = document.getElementById("login");
     const game = document.getElementById("game");
     const stats = document.getElementById("stats");
@@ -135,6 +134,14 @@ function screenStats() {
     stats.style.display = "";
 }
 
+function loadStats(user, streak, maxStreak){
+    document.getElementById('userName').textContent = user.Username;
+    document.getElementById('currentStreak').textContent = streak;
+    document.getElementById('bestStreak').textContent = maxStreak;
+    document.getElementById('lastWord').textContent = wordleObj.Word;
+    document.getElementById('wordDescription').textContent = wordleObj.Info;
+        
+}
 //limpiar inputs
 function cleanInputs() {
     document.getElementById('userUser').value = '';

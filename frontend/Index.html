@@ -30,7 +30,6 @@
             </svg>
             <input placeholder="Password" class="input-field-svg" type="password" id="passwordUser">
         </div>
-
         
 
           <div class="field">
@@ -54,7 +53,6 @@
           </div>
         </div>
 
-
     </div>
   </section>
   
@@ -73,8 +71,29 @@
       <div id="keyboardLayoutRow3" class="keyboardKeys"></div>
     </div>
   </section>
+
   <section id="stats">
-  
+    <div class="stats-item">
+      <label for="userName">Nombre del Usuario:</label>
+      <span id="userName"></span>
+  </div>
+  <div class="stats-item">
+      <label for="currentStreak">Racha Actual:</label>
+      <span id="currentStreak"></span>
+  </div>
+  <div class="stats-item">
+      <label for="bestStreak">Mejor Racha:</label>
+      <span id="bestStreak"></span>
+  </div>
+  <div class="stats-item">
+      <label for="lastWord">Última Palabra:</label>
+      <span id="lastWord"></span>
+  </div>
+  <div class="stats-item">
+      <label for="wordDescription">Descripción de la Palabra:</label>
+      <span id="wordDescription"></span>
+  </div>
+  <button class="button2" id="Replay" onclick="replay()">Replay</button>
   </section>
   <script src="./dom.js"></script>
   <script src="./main.js"></script>
