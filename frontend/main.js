@@ -3,22 +3,34 @@ let users = []
 let gridX = 5 
 let gridY = 6
 let wordleObj = ""
-let wordle = ""
 let keyboardLayoutRow1 = "qwertyuiop" 
 let keyboardLayoutRow2 = "asdfghjkl" 
 let keyboardLayoutRow3 = "zxcvbnm"
 let userId = 0
-arrancarJuego()
+screenLogin()
 //--------------------------------------------------Registro y Login------------------------------------------------------
 
 //encontrar cliente por id
 function encontrarUserPorID(id) {
     for (let i = 0; i < users.length; i++) {
-        if (users[i].id === id) {
+        if (users[i].UserID === id) {
             return i; // Devuelve la posición del cliente en el vector
         }
     }
     return -1; // Si no se encuentra el cliente, devuelve -1
+}
+
+function repiteName(usernameBuscado) {
+    // Recorremos el array de usuarios
+    for (let i = 0; i < users.length; i++) {
+        // Comparamos el username del usuario actual con el username buscado
+        if (users[i].Username === usernameBuscado) {
+            // Retornamos el objeto usuario si encontramos coincidencia
+            return true;
+        }
+    }
+    // Retornamos null si no encontramos ningún usuario con ese username
+    return false;
 }
 
 //ejercicio 18, función login FUNCIONA
@@ -32,9 +44,10 @@ function login(username, password){
 }
 
 //ejercicio 18, linkear métodos de login FUNCIONA
-function linkLogin(){
+async function linkLogin(){
     username=getUser()
     password=getPasswordUser()
+    users = await getUsers()
     userId=login(username, password)
     if(userId==1){
         window.alert("Bienvenido Admin")
@@ -48,8 +61,8 @@ function linkLogin(){
 }
 
 //ejercicio 19, función registro FUNCIONA
-function register(username, password, mail, nameUser, surname){
-    if(username.length<4){
+async function register(username, password, mail, nameUser, surname){
+    if(username.length<4||repiteName(username)){
         return -1
     }else if(password.length<5){
         return -2
@@ -60,7 +73,7 @@ function register(username, password, mail, nameUser, surname){
     }else if(mail.length<6){
         return -5
     }else{
-        postUser(username, password, mail, nameUser, surname)
+        await postUser(username, password, mail, nameUser, surname)
         return 1
     }
 }
@@ -72,10 +85,10 @@ async function linkRegister(){
     mail=getMailUser()
     nameUser=getNameUser()
     surname=getSurnameUser()
-    crear=register(username, password, mail, nameUser, surname)
-    await arrancarJuego()
+    crear = await register(username, password, mail, nameUser, surname)
+    console.log(crear)
     if (crear>0){
-        linkLogin()
+        await linkLogin()
     }else if(crear==-1){
         window.alert("Username inválido")
     }else if(crear==-2){
@@ -91,10 +104,13 @@ async function linkRegister(){
 
 //ejercicio 20, función de logout FUNCIONA
 function logout(){
-    userId = -1
-    posUser= -1
     screenLogin()
-    window.alert("Ha cerrado su cuenta con éxito")
+    if (userId>0){
+        window.alert("Ha cerrado su cuenta con éxito")
+    }else{
+    window.alert("Ya se encuentra en el inicio!!")
+    }
+    userId = -1
 }
 
 //------------------------------------------------------- Funciones de juego ----------------------------------------------------------------------
@@ -103,11 +119,11 @@ async function arrancarJuego() {
     bancoDepalabras = await getPalabras()
     users= await getUsers()
     wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
-    wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)].Word
 }
 
 function checkResponse() { 
     let word = ''
+    let wordle = wordleObj.Word 
     for (let i = 0; i < focusCol; i++) {
         word += document.getElementById(getPosByRowCol('ip', focusRow, i)).value.toLowerCase()
     } if (word.length < 5) { 
@@ -118,7 +134,7 @@ function checkResponse() {
         }if (word === wordle) { 
             paintLetterPositions(wordle, word)
             setTimeout(() => { 
-                alert('Ganaste! La Palabra era: ' + wordle) 
+                alert('Perdiste! La Palabra era: ' + wordle + '. \nEsto significa: ' + wordleObj.Info) 
                 document.getElementById('score').textContent = parseInt(document.getElementById('score')
                 .textContent) + 1
                 resetBoard() }, 100)} 
@@ -126,8 +142,8 @@ function checkResponse() {
             paintLetterPositions(wordle, word)
             
             if (focusRow + 1 >= gridY) { 
-                alert('Perdiste! La Palabra era: ' + wordle)
-                window.location.reload()
+                alert('Perdiste! La Palabra era: ' + wordle + '. \nEsto significa: ' + wordleObj.Info)
+                goStats()
             }
             moveFocus(++focusRow, 0)
             focusCol = 0
@@ -191,7 +207,14 @@ document.body.addEventListener('click',(e) => {
     e.stopPropagation()
 },)
 
-//-------------------------------------------Funciones para el back--------------------------------------------------------------------------
+//------------------------------------------- Funciones de estadísticas ---------------------------------------------------
+
+function goStats() {
+    screenStats(streak, bestStreak, lastWord, wordDefinition)
+    resetBoard()
+}
+
+//------------------------------------------- Funciones para el back --------------------------------------------------------------------------
 
 async function getPalabras(){
     //función
@@ -201,7 +224,6 @@ async function getPalabras(){
             throw new Error('Network response was not ok');
         }else{
         const words = await response.json();
-        console.log(words);
         return words;
         }
     }catch (error) {
@@ -217,7 +239,6 @@ async function getUsers(){
             throw new Error('Network response was not ok');
         }else{
         const users = await response.json();
-        console.log(users);
         return users;
         }
     }catch (error) {
@@ -225,7 +246,7 @@ async function getUsers(){
     }
 }
 
-async function postUser(usuario, mail, contra, nombre, apellido){
+async function postUser(usuario, contra, mail, nombre, apellido){
         const user={
             Username:usuario,
             Email_Address:mail,
@@ -233,6 +254,8 @@ async function postUser(usuario, mail, contra, nombre, apellido){
             Name:nombre,
             Surname:apellido
         }
+        
+        console.log(user)
         try{
             const response = await fetch('http://localhost:3000/insertUser', {
                 method: "POST",

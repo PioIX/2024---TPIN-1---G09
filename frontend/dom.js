@@ -1,6 +1,5 @@
-const game = document.getElementById("game");
-game.style.display = "none";
-// Funciones el juego
+
+//---------------------------------------------------------Funciones el juego--------------------------------------------------
 function createWordleGrid() { 
     for (let i = 0; i < gridY; i++) {
         let tr = document.createElement('tr')
@@ -103,7 +102,7 @@ function paintLetterPositions(word1, word2) {
     }
 }
 
-// Funciones de Login
+// -------------------------------------------------- Funciones de Login --------------------------------------------------
 
 // Cambiar pantalla
 function screenLogin() {
@@ -114,9 +113,11 @@ function screenLogin() {
     game.style.display = "none";
     stats.style.display = "none";
     arrancarJuego()
+    cleanInputs()
 }
 
 function screenGame() {
+    arrancarJuego()
     const login = document.getElementById("login");
     const game = document.getElementById("game");
     const stats = document.getElementById("stats");
@@ -134,6 +135,14 @@ function screenStats() {
     stats.style.display = "";
 }
 
+//limpiar inputs
+function cleanInputs() {
+    document.getElementById('userUser').value = '';
+    document.getElementById('passwordUser').value = '';
+    document.getElementById('mailUser').value = '';
+    document.getElementById('nameUser').value = '';
+    document.getElementById('surnameUser').value = '';
+}
 //ejercicio 18, traer DNI de usuario FUNCIONA
 function getUser(){
     return document.getElementById("userUser").value
