@@ -3,7 +3,7 @@ body {
   align-items: center;
   flex-direction: column;
   font-family: 'Open Sans', sans-serif;
-  background-color: #191622;
+  background-color: #080213;
   color: white;
 }
 
@@ -13,7 +13,7 @@ section{
   flex-direction: column;
 }
 
-h3{
+h3,h1{
   margin: 0;
 }
 
@@ -30,14 +30,18 @@ h3{
   align-items: center;
 }
 
+
+
+
 table {
   table-layout: fixed;
+  border-spacing: 8px;
 }
 
 td {
   border: 2px solid white;
-  height: 55px;
-  width: 55px;
+  border-radius: 10%;
+  border-spacing: 50px;
 }
 
 .letterInput {
@@ -52,7 +56,7 @@ td {
   caret-color: transparent;
   background-color: transparent;
   font-family: 'Open Sans', sans-serif;
-  color: white;
+  color: white; 
 }
 
 #keyboardLayout {
@@ -85,15 +89,89 @@ td {
   user-select: none;
 }
 
-button#check:hover {
-  background: #7C7C8A;
-  color: #191622;
-  transition: 500ms;
+button#delete {
+  border: 2px solid #2c2c2c;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+  align-items: center;
+  text-align: center;
+  
 }
+
+button#delete::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+button#delete:hover::after {
+  transform: scale(4);
+}
+
 button#delete:hover {
-  background: #7C7C8A;
-  color: #191622;
-  transition: 500ms;
+  border-color: #666666;
+  background: #292929;
+}
+
+
+button#check {
+  border: 2px solid #2c2c2c;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+  align-items: center;
+  text-align: center;
+  
+}
+
+button#check::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+button#check:hover::after {
+  transform: scale(4);
+}
+
+button#check:hover {
+  border-color: #666666;
+  background: #292929;
 }
 
 #controlButtons {
@@ -101,6 +179,9 @@ button#delete:hover {
   align-items: center;
   width: 100%;
   justify-content: space-between;
+  padding: 0px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 #controlButtons>button {
@@ -291,7 +372,8 @@ p#key-m:hover {
       align-items: center;
       width: 100%;
       justify-content: space-evenly;
-      padding: 20px
+      padding: 20px;
+      padding-bottom: 0%;
   }
 
   .form {
@@ -332,8 +414,8 @@ p#key-m:hover {
   }
   
   .input-icon {
-    height: 1.3em;
-    width: 1.3em;
+    height: 1em;
+    width: 1em;
     fill: white;
   }
   

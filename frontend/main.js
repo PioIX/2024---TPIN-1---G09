@@ -1,33 +1,45 @@
 let bancoDePalabras = []
 let users = []
+
 let games = []
 let gridX = 5 
 let gridY = 6
 let wordleObj = ""
-let wordle = ""
 let keyboardLayoutRow1 = "qwertyuiop" 
 let keyboardLayoutRow2 = "asdfghjkl" 
 let keyboardLayoutRow3 = "zxcvbnm"
 let userId = 0
-let userPos = 0
-arrancarJuego()
+screenLogin()
 //--------------------------------------------------Registro y Login------------------------------------------------------
 
 //encontrar cliente por id
 function encontrarUserPorID(id) {
     for (let i = 0; i < users.length; i++) {
-        if (users[i].id === id) {
-            return i; // Devuelve la posición del user en el vector
+        if (users[i].UserID === id) {
+            return i; // Devuelve la posición del cliente en el vector
         }
     }
     return -1; // Si no se encuentra el user, devuelve -1
 }
 
-//función login FUNCIONA
+
+function repiteName(usernameBuscado) {
+    // Recorremos el array de usuarios
+    for (let i = 0; i < users.length; i++) {
+        // Comparamos el username del usuario actual con el username buscado
+        if (users[i].Username === usernameBuscado) {
+            // Retornamos el objeto usuario si encontramos coincidencia
+            return true;
+        }
+    }
+    // Retornamos null si no encontramos ningún usuario con ese username
+    return false;
+}
+
+//ejercicio 18, función login FUNCIONA
 function login(username, password){
     for (let i = 0; i < users.length; i++) {
         if (users[i].Username == username && users[i].Password==password) {
-            console.log(users[i].Id)
             return users[i].UserID; // Devuelve el id del user
         }
     }
@@ -35,13 +47,15 @@ function login(username, password){
 }
 
 //ejercicio 18, linkear métodos de login FUNCIONA
-function linkLogin(){
+async function linkLogin(){
     username=getUser()
     password=getPasswordUser()
-    console.log(username, password)
+    users = await getUsers()
     userId=login(username, password)
-    if (userId>=0){
-        posUser=encontrarUserPorID(userId)
+    if(userId==1){
+        window.alert("Bienvenido Admin")
+        window.location.href = 'admin/admin.html'
+    }else if (userId>=0){
         screenGame()
         window.alert("Usuario logeado")
     }else{
@@ -50,8 +64,10 @@ function linkLogin(){
 }
 
 //ejercicio 19, función registro FUNCIONA
-function register(usuario, mail, contra, nombre, apellido){
-    if(dni<1000000){
+
+async function register(username, password, mail, nameUser, surname){
+    if(username.length<4||repiteName(username)){
+
         return -1
     }else if(password.length<5){
         return -2
@@ -59,45 +75,48 @@ function register(usuario, mail, contra, nombre, apellido){
         return -3
     }else if(surname.length<3){
         return -4
-    }else if(mail.length<6){ 
+
+    }else if(mail.length<6){
         return -5
     }else{
-        userId=postUser(usuario, mail, contra, nombre, apellido)
-        return 
+        await postUser(username, password, mail, nameUser, surname)
+        return 1
     }
 }
 
 //ejercicio 19, linkear métodos de registro FUNCIONA
-function linkRegister(){
+async function linkRegister(){
     username=getUser()
     password=getPasswordUser()
     mail=getMailUser()
     nameUser=getNameUser()
     surname=getSurnameUser()
-    userId=register(username, mail, password, nameUser, surname)
-    if (clientId>0){
-        userId=encontrarClientePorID(userId)
-        screenGame()
-        window.alert("Usuario creado y logeado")
-    }else if(clientId==-1){
-        window.alert("DNI inválido")
-    }else if(clientId==-2){
+    crear = await register(username, password, mail, nameUser, surname)
+    console.log(crear)
+    if (crear>0){
+        await linkLogin()
+    }else if(crear==-1){
+        window.alert("Username inválido")
+    }else if(crear==-2){
         window.alert("Contraseña muy corta")
-    }else if(clientId==-3){
+    }else if(crear==-3){
         window.alert("Nombre muy corto")
-    }else if(clientId==-4){
+    }else if(crear==-4){
         window.alert("Apellido muy corto")
-    }else if(clientId==-5){
-        window.alert("Mail inválido")
+    }else if(crear==-5){
+        window.alert("Escribi bien el mail")
     }
 }
 
 //función de logout FUNCIONA
 function logout(){
-    userId = -1
-    posUser= -1
     screenLogin()
-    window.alert("Ha cerrado su cuenta con éxito")
+    if (userId>0){
+        window.alert("Ha cerrado su cuenta con éxito")
+    }else{
+    window.alert("Ya se encuentra en el inicio!!")
+    }
+    userId = -1
 }
 
 startPage()
@@ -141,11 +160,11 @@ async function startPage(){
 
 async function arrancarJuego() {
     wordleObj = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)]
-    wordle = bancoDepalabras[getRandomInt(0, bancoDepalabras.length)].Word
 }
 
 function checkResponse() { 
     let word = ''
+    let wordle = wordleObj.Word 
     for (let i = 0; i < focusCol; i++) {
         word += document.getElementById(getPosByRowCol('ip', focusRow, i)).value.toLowerCase()
     } if (word.length < 5) { 
@@ -156,7 +175,7 @@ function checkResponse() {
         }if (word === wordle) { 
             paintLetterPositions(wordle, word)
             setTimeout(() => { 
-                alert('Ganaste! La Palabra era: ' + wordle) 
+                alert('Perdiste! La Palabra era: ' + wordle + '. \nEsto significa: ' + wordleObj.Info) 
                 document.getElementById('score').textContent = parseInt(document.getElementById('score')
                 .textContent) + 1
                 resetBoard() }, 100)} 
@@ -164,8 +183,8 @@ function checkResponse() {
             paintLetterPositions(wordle, word)
             
             if (focusRow + 1 >= gridY) { 
-                alert('Perdiste! La Palabra era: ' + wordle)
-                window.location.reload()
+                alert('Perdiste! La Palabra era: ' + wordle + '. \nEsto significa: ' + wordleObj.Info)
+                goStats()
             }
             moveFocus(++focusRow, 0)
             focusCol = 0
@@ -229,86 +248,15 @@ document.body.addEventListener('click',(e) => {
     e.stopPropagation()
 },)
 
-//--------------------------------------------------Registro y Login------------------------------------------------------
+//------------------------------------------- Funciones de estadísticas ---------------------------------------------------
 
-//función login FUNCIONA
-function login(username, password){
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].Username == username && users[i].Password==password) {
-            return users[i].UserID; // Devuelve el id del user
-        }
-    }
-    return -1
+function goStats() {
+    screenStats(streak, bestStreak, lastWord, wordDefinition)
+    resetBoard()
 }
 
-//ejercicio 18, linkear métodos de login FUNCIONA
-function linkLogin(){
-    username=getUser()
-    password=getPasswordUser()
-    userId=login(username, password)
-    if (userId>=0){
-        posUser=encontrarUserPorID(userId)
-        screenGame()
-        window.alert("Usuario logeado")
-    }else{
-        window.alert("Ha ocurrido un error, intentalo de nuevo")
-    }
-}
+//------------------------------------------- Funciones para el back --------------------------------------------------------------------------
 
-//ejercicio 19, función registro FUNCIONA
-function register(usuario, mail, contra, nombre, apellido){
-    if(usuario.length<4){
-        return -1
-    }else if(existenciaUsuario(usuario)<0){
-        return 0
-    }else if(password.length<5){
-        return -2
-    }else if(nameUser.length<3){
-        return -3
-    }else if(surname.length<3){
-        return -4
-    }else if(mail.length<6){ 
-        return -5
-    }else{
-        userId=postUser(usuario, mail, contra, nombre, apellido)
-        return 
-    }
-}
-
-//ejercicio 19, linkear métodos de registro FUNCIONA
-function linkRegister(){
-    username=getUser()
-    password=getPasswordUser()
-    mail=getMailUser()
-    nameUser=getNameUser()
-    surname=getSurnameUser()
-    userId=register(username, mail, password, nameUser, surname)
-    if (userId>0){
-        userId=encontrarUserPorID(userId)
-        screenGame()
-        window.alert("Usuario creado y logeado")
-    }else if(userId==-1){
-        window.alert("DNI inválido")
-    }else if(userId==-2){
-        window.alert("Contraseña muy corta")
-    }else if(userId==-3){
-        window.alert("Nombre muy corto")
-    }else if(userId==-4){
-        window.alert("Apellido muy corto")
-    }else if(userId==-5){
-        window.alert("Mail inválido")
-    }
-}
-
-//función de logout FUNCIONA
-function logout(){
-    userId = -1
-    posUser= -1
-    screenLogin()
-    window.alert("Ha cerrado su cuenta con éxito")
-}
-
-//-------------------------------------------Funciones para el back--------------------------------------------------------------------------
 
 async function getPalabras(){
     //función
@@ -340,23 +288,8 @@ async function getUsers(){
     }
 }
 
-async function getGames(){
-    //función
-    try{
-        const response = await fetch("http://localhost:3000/getGame",{});
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }else{
-        const game = await response.json();
-        return game;
-        }
-    }catch (error) {
-        console.error('Error fetching data:', error);
-    }
-}
 
-async function postUser(usuario, mail, contra, nombre, apellido){
-    if(confirm("tas seguro?")){
+async function postUser(usuario, contra, mail, nombre, apellido){
         const user={
             Username:usuario,
             Email_Address:mail,
@@ -380,32 +313,10 @@ async function postUser(usuario, mail, contra, nombre, apellido){
         }catch (error) {
             console.error('Error inserting data:', error);
         }
-    }
+
 }
 
-
-//-----------------------------------------------------------Funciones extras---------------------------------------------------------------------------
-
-//chequear si existe un usuario
-function existenciaUsuario(username){
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].Username === username) {
-            return i; // Devuelve la posición del user en el vector
-            }
-        }
-    return -1; // Si no se encuentra el user, devuelve -1
-}
-
-//encontrar cliente por id
-function encontrarUserPorID(id) {
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].UserID === id) {
-            return i; // Devuelve la posición del user en el vector
-        }
-    }
-    return -1; // Si no se encuentra el user, devuelve -1
-}
-
+// Funciones letias
 
 function getRandomInt(min, max) { 
     min = Math.ceil(min);
